@@ -93,6 +93,8 @@ SRC =	my_char_isalpha.c \
 		load_2d_arr_from_file.c \
 		fs_get.c \
 		my_memset_array.c \
+		get_next_line.c \
+		tg_files.c \
 		$(SRC_PUTS) \
 		$(SRC_STRING) \
 		$(SRC_VEC) \
@@ -115,13 +117,14 @@ reset = `tput sgr0`
 all: $(NAME)
 
 $(NAME): $(OBJ)
-		@cp my.h ../../include
+		@cp my.h ../include
+		@cp -r ../include/ ../../
 		@echo "$(bold)$(magenta)Compiling$(white) $(NAME) $(reset)"
 		@ar -rc $(NAME).a $(OBJ)
 		@cp $(NAME).a ../
 
 %.o : %.c
-	@gcc -I. -W -Wall -c $< -o $@
+	@gcc -I../include -W -Wall -c $< -o $@
 
 .PHONY: clean
 clean:

@@ -8,6 +8,7 @@
 void my_exit(int *run)
 {
     *run = 0;
+    my_putstr("exit\n");
 }
 
 void cd(char *path)

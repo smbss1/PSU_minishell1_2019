@@ -12,7 +12,7 @@ char *my_strdup(char const *src)
 {
     char *str;
     int len = my_strlen(src) + 1;
-    str = malloc(sizeof(char) * len);
+    str = tg_malloc(sizeof(char) * len);
     my_strcpy(str, src);
     return (str);
 }

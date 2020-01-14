@@ -13,7 +13,7 @@ void malloc_buffer(char **buffer, const int fd)
 {
     if (*buffer == NULL || *buffer[0] == '\0') {
         int byte = 0;
-        *buffer = malloc(sizeof(char) * (READ_SIZE + 1));
+        *buffer = tg_malloc(sizeof(char) * (READ_SIZE + 1));
         if (*buffer == NULL)
             return;
         byte = read(fd, *buffer, READ_SIZE);
@@ -25,7 +25,7 @@ void malloc_buffer(char **buffer, const int fd)
 
 char *malloc_result(char **result)
 {
-    *result = malloc(sizeof(char) * (READ_SIZE + 1));
+    *result = tg_malloc(sizeof(char) * (READ_SIZE + 1));
     return (*result);
 }
 
@@ -51,13 +51,13 @@ char *str_cat_dup(char *str1, char *str2)
     while (str1[len_str1++]);
     while (str2[len_str2++]);
     int len3 = len_str1 + len_str2 + 1;
-    result = malloc(sizeof(char) * len3);
+    result = tg_malloc(sizeof(char) * len3);
     if (result == NULL)
         return (NULL);
     copy(result, str1, str2, &j);
     result[j] = '\0';
-    free(str1);
-    free(str2);
+    // free(str1);
+    // free(str2);
     return (result);
 }
 

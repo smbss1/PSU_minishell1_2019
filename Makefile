@@ -5,8 +5,9 @@
 # make an executable
 #
 
-SRC = 	main.c my_scanf.c my_event.c get_next_line.c \
-		my_command.c my_execvp.c
+SRC = 	main.c my_scanf.c my_event.c \
+		my_command.c my_execvp.c debug.c \
+		getenv.c find_cmd_path.c
 OBJ = $(SRC:.c=.o)
 NAME = mysh
 
@@ -14,6 +15,7 @@ CFLAGS += -I ./include/
 CFLAGS += -L ./lib/
 CFLAGS += -lmy
 CFLAGS += -W -Wall
+CFLAGS += -g
 
 bold = [1m
 green = [32m

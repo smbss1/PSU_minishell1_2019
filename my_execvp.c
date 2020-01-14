@@ -7,6 +7,7 @@
 
 #include <dirent.h>
 #include <stdlib.h>
+#include "my.h"
 
 void my_execvp(char *cmd, char **argv, char **env, char *env_path)
 {
@@ -17,12 +18,17 @@ void my_execvp(char *cmd, char **argv, char **env, char *env_path)
 
     for (; path; path = my_strtok(NULL, ":")) {
         directory = opendir(path);
-        if (directory)
+        if (directory) {
             find_cmd_path(directory, path, cmd, &path_found);
+            closedir(directory);
+        }
     }
-    char c[50];
-    my_sprintf(&c, "%s/%s", path_found, cmd);
-    argv[0] = c;
-    execute(argv, env);
-    free(env_dup);
+    if (path_found) {
+        char c[1024];
+        my_sprintf(&c, "%s/%s", path_found, cmd);
+        argv[0] = c;
+        execute(argv, env);
+    } else
+        my_printf("%s : command not found\n", cmd);
+    // free(env_dup);
 }
