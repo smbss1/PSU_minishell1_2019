@@ -29,6 +29,5 @@ void my_execvp(char *cmd, char **argv, char **env, char *env_path)
         argv[0] = c;
         execute(argv, env);
     } else
-        my_printf("%s : command not found\n", cmd);
-    // free(env_dup);
+        my_printf("%s: command not found\n", cmd);
 }

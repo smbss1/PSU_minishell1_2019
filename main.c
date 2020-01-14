@@ -89,7 +89,7 @@ void treatement(char **argv, char **envp, int *run)
 int main(int ac, char **av, char **envp)
 {
     tg_start();
-    int run = 1;;
+    int run = 1;
 
     on("exit", my_exit, NULL);
     on("cd", cd, NULL);
