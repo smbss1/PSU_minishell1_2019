@@ -129,7 +129,7 @@ $(NAME): $(OBJ)
 .PHONY: clean
 clean:
 		@echo "$(bold)$(blue)Cleaning$(white) $(NAME)$(reset)"
-		@rm -f *.o
+		@rm -f $(OBJ)
 
 fclean: clean
 		@rm -f $(NAME).a

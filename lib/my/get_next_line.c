@@ -17,8 +17,10 @@ void malloc_buffer(char **buffer, const int fd)
         if (*buffer == NULL)
             return;
         byte = read(fd, *buffer, READ_SIZE);
-        if (byte == -1)
+        if (byte < 0) {
+            (*buffer)[byte] = '\0';
             return;
+        }
         (*buffer)[byte] = '\0';
     }
 }

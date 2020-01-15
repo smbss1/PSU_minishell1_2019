@@ -7,7 +7,7 @@
 
 SRC = 	main.c my_scanf.c my_event.c \
 		my_command.c my_execvp.c debug.c \
-		getenv.c find_cmd_path.c
+		getenv.c find_cmd_path.c execute.c
 OBJ = $(SRC:.c=.o)
 NAME = mysh
 

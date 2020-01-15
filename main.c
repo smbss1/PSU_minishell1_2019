@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include<sys/wait.h>
 #include <dirent.h>
+#include <signal.h>
 #include "my.h"
 #include "get_next_line.h"
 #include "debug.h"
@@ -37,32 +38,11 @@ static void launch_child(int parent_id, int child_id, char **args, char **envp)
             exit(0);
 }
 
-void execute(char **argv, char **env)
-{
-    int parent_pid = getpid();
-    pid_t child_pid;
-    int status;
-
-    parent_pid = fork();
-    if (parent_pid < 0)
-        my_printf("*** ERROR: forking child process failed\n");
-    else if (parent_pid == 0) {
-        if (execve(argv[0], argv, env) < 0)
-            my_printf("*** ERROR: exec failed\n");
-    } else {
-        waitpid(parent_pid, &status, 0);
-        if (WTERMSIG(status)) {
-            my_putstr(strsignal(WTERMSIG(status)));
-            my_putstr("\n");
-        }
-    }
-}
-
-int custom_cmd(char const *str, char *str2, int *run)
+int custom_cmd(char const *str, char *str2, int *run, char **env)
 {
     R_DEV_ASSERT(str, "", return (1));
     if (my_strcmp(str, "cd") == 0) {
-        emit("cd", str2, NULL);
+        emit("cd", str2, env);
         return (1);
     }
     if (my_strcmp(str, "exit") == 0) {
@@ -79,25 +59,32 @@ void treatement(char **argv, char **envp, int *run)
         execute(argv, envp);
         return;
     }
-    if (custom_cmd(argv[0], argv[1], run) == 1)
+    if (custom_cmd(argv[0], argv[1], run, envp) == 1)
         return;
     char *path_var = my_getenv("PATH", envp);
     R_DEV_ASSERT(path_var, "", return);
     my_execvp(argv[0], argv, envp, path_var);
 }
 
+__sighandler_t sigint(int status)
+{
+    signal(SIGINT, sigint);
+}
+
 int main(int ac, char **av, char **envp)
 {
-    tg_start();
     int run = 1;
-
-    on("exit", my_exit, NULL);
-    on("cd", cd, NULL);
     char buff[100];
+
+    tg_start();
+    on("exit", my_exit, NULL);
+    on("cd", NULL, cd);
+    signal(SIGINT, sigint);
     while (run) {
         char *cwd = getcwd(&buff, 100);
         my_printf("%s~$> ", cwd);
         char *line_cmd = get_next_line(0);
+        R_DEV_ASSERT(line_cmd, "\n", continue);
         char **argv = my_str_to_word_array(line_cmd);
         treatement(argv, envp, &run);
     }
