@@ -104,7 +104,7 @@ char *my_strncat(char *dest, char const *src, int nb);
 void my_swap(int *a, int *b);
 int condition(char const *str, int i, long *p_verif, unsigned long *p_verif2);
 int my_show_word_array(char * const *tab);
-char **my_str_to_word_array(char const *str);
+char **my_str_to_word_array(char const *str, char *delim);
 char *my_strdup(char const *src);
 char *my_char_to_str(char c);
 char *my_charcat(char *dest, char src);

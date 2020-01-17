@@ -35,19 +35,19 @@ static int get_row_length(char const *str)
     return (row);
 }
 
-char **my_str_to_word_array(char const *str)
+char **my_str_to_word_array(char const *str, char *delim)
 {
-    R_DEV_ASSERT(str != NULL && str[0] != '\0', "", return (NULL));
+    R_DEV_ASSERT(str && str[0] != '\0', "", return (NULL));
     int row = get_row_length(str);
     int col = get_col_length(str);
-    char **array = mem_alloc_2d_array(row, col);
+    char **array = mem_alloc_2d_array(row + 1, col);
     R_DEV_ASSERT(array, "", return (NULL));
-    my_memset_array(array, 0, row, col);
-    char *word = my_strtok(str, " \t");
+    my_memset_array(array, 0, row + 1, col);
+    char *word = my_strtok(str, delim);
     int i = 0;
     for (i = 0; word; i++) {
-        array[i] = word;
-        word = my_strtok(NULL, " \t");
+        my_strcpy(array[i], word);
+        word = my_strtok(NULL, delim);
     }
     array[row] = NULL;
     return (array);

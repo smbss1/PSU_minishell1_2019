@@ -14,6 +14,7 @@ NAME = mysh
 CFLAGS += -I ./include/
 CFLAGS += -L ./lib/
 CFLAGS += -lmy
+CFLAGS += -lgc
 CFLAGS += -W -Wall
 CFLAGS += -g
 
@@ -28,6 +29,7 @@ all: $(NAME)
 
 lib_make:
 	@make -s -C lib/my
+	@make -s -C lib/tiny_garbage
 
 $(NAME): lib_make $(OBJ)
 	@gcc -o $(NAME) $(OBJ) $(CFLAGS)
@@ -43,5 +45,6 @@ fclean: clean
 	@rm -f $(NAME)
 	@rm -f vgcore*
 	@make fclean -s -C lib/my
+	@make fclean -s -C lib/tiny_garbage
 
 re: fclean all

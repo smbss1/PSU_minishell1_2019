@@ -8,6 +8,7 @@
 #include <dirent.h>
 #include <stdlib.h>
 #include "my.h"
+#include "garbage.h"
 
 void my_execvp(char *cmd, char **argv, char **env, char *env_path)
 {
@@ -23,10 +24,12 @@ void my_execvp(char *cmd, char **argv, char **env, char *env_path)
             closedir(directory);
         }
     }
+    gc_free(get_garbage(), env_dup);
     if (path_found) {
-        char c[1024];
-        my_sprintf(&c, "%s/%s", path_found, cmd);
-        argv[0] = c;
+        my_strcat(path_found, "/");
+        my_strcat(path_found, cmd);
+        argv[0] = my_strdup(path_found);
+        my_printf("%s\n", path_found);
         execute(argv, env);
     } else
         my_printf("%s: command not found\n", cmd);

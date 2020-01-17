@@ -94,7 +94,6 @@ SRC =	my_char_isalpha.c \
 		fs_get.c \
 		my_memset_array.c \
 		get_next_line.c \
-		tg_files.c \
 		$(SRC_PUTS) \
 		$(SRC_STRING) \
 		$(SRC_VEC) \

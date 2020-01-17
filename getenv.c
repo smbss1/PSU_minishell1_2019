@@ -6,6 +6,7 @@
 */
 
 #include <stdlib.h>
+#include "garbage.h"
 
 char *my_getenv(char *name, char **envp)
 {
@@ -14,6 +15,7 @@ char *my_getenv(char *name, char **envp)
         char *env_word = my_strtok(test, "=");
         if (my_strcmp(env_word, name) == 0)
             return (envp[i]);
+        gc_free(get_garbage(), test);
     }
     return (NULL);
 }

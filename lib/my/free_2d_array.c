@@ -6,10 +6,11 @@
 */
 
 #include <stdlib.h>
+#include "garbage.h"
 
 void free_2d_array(void **array)
 {
     for (int i = 0; array[i] != NULL; i++)
-        free(array[i]);
-    free(array);
+        gc_free(get_garbage(), array[i]);
+    gc_free(get_garbage(), array);
 }

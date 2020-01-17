@@ -13,19 +13,22 @@
 */
 
 #include <stdlib.h>
+#include "garbage.h"
 
 char **mem_alloc_2d_array(int nb_rows, int nb_cols)
 {
-    char **array = tg_malloc(nb_rows * sizeof(char *));
+    gc_t *gc = get_garbage();
+    char **array = gc_malloc(gc, nb_rows * sizeof(char *));
     for (int i = 0; i < nb_rows; i++)
-        array[i] = tg_malloc(nb_cols * sizeof(char));
+        array[i] = gc_malloc(gc, nb_cols * sizeof(char));
     return (array);
 }
 
 int **mem_alloc_2d_array_int(int nb_rows, int nb_cols)
 {
-    int **array = tg_malloc(nb_rows * sizeof(int *));
+    gc_t *gc = get_garbage();
+    int **array = gc_malloc(gc, nb_rows * sizeof(int *));
     for (int i = 0; i < nb_rows; i++)
-        array[i] = tg_malloc(nb_cols * sizeof(int));
+        array[i] = gc_malloc(gc, nb_cols * sizeof(int));
     return (array);
 }

@@ -8,12 +8,13 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include "get_next_line.h"
+#include "garbage.h"
 
-void malloc_buffer(char **buffer, const int fd)
+void malloc_buffer(gc_t *gc, char **buffer, const int fd)
 {
     if (*buffer == NULL || *buffer[0] == '\0') {
         int byte = 0;
-        *buffer = tg_malloc(sizeof(char) * (READ_SIZE + 1));
+        *buffer = gc_malloc(gc, sizeof(char) * (READ_SIZE + 1));
         if (*buffer == NULL)
             return;
         byte = read(fd, *buffer, READ_SIZE);
@@ -25,9 +26,9 @@ void malloc_buffer(char **buffer, const int fd)
     }
 }
 
-char *malloc_result(char **result)
+char *malloc_result(gc_t *gc, char **result)
 {
-    *result = tg_malloc(sizeof(char) * (READ_SIZE + 1));
+    *result = gc_malloc(gc, sizeof(char) * (READ_SIZE + 1));
     return (*result);
 }
 
@@ -39,7 +40,7 @@ void copy(char *result, char *str1, char *str2, int *j)
         result[*j] = str2[i];
 }
 
-char *str_cat_dup(char *str1, char *str2)
+char *str_cat_dup(gc_t *gc, char *str1, char *str2)
 {
     char *result = NULL;
     int len_str1 = 0;
@@ -53,7 +54,7 @@ char *str_cat_dup(char *str1, char *str2)
     while (str1[len_str1++]);
     while (str2[len_str2++]);
     int len3 = len_str1 + len_str2 + 1;
-    result = tg_malloc(sizeof(char) * len3);
+    result = gc_malloc(gc, sizeof(char) * len3);
     if (result == NULL)
         return (NULL);
     copy(result, str1, str2, &j);
@@ -63,14 +64,15 @@ char *str_cat_dup(char *str1, char *str2)
 
 char *get_next_line(int fd)
 {
+    gc_t *gc = get_garbage();
     static char *buffer;
     char *ret = NULL;
     int i = 0;
 
-    malloc_buffer(&buffer, fd);
+    malloc_buffer(gc, &buffer, fd);
     if (buffer == NULL || buffer[0] == '\0')
         return (NULL);
-    if (malloc_result(&ret) == NULL)
+    if (malloc_result(gc, &ret) == NULL)
         return (NULL);
     while (buffer[0] != '\0' && (i == 0 || *(buffer - 1) != '\n')) {
         ret[i] = buffer[0];
@@ -81,6 +83,6 @@ char *get_next_line(int fd)
     if (i != 0 && ret[i - 1] == '\n') {
         ret[i - 1] = '\0';
     } else
-        ret = str_cat_dup(ret, get_next_line(fd));
+        ret = str_cat_dup(gc, ret, get_next_line(fd));
     return (ret);
 }
