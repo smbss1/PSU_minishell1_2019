@@ -58,7 +58,6 @@ void treatement(char **argv, char **envp, int *run)
     if (custom_cmd(argv[0], argv[1], run, envp) == 1)
         return;
     char *path_var = my_getenv("PATH", envp);
-    my_printf("Pa:%s\n", path_var);
     R_DEV_ASSERT(path_var, "", return);
     my_execvp(argv[0], argv, envp, path_var);
 }
@@ -66,6 +65,9 @@ void treatement(char **argv, char **envp, int *run)
 __sighandler_t sigint(int status)
 {
     signal(SIGINT, sigint);
+    char buff[100];
+    char *cwd = getcwd(&buff, 100);
+    my_printf("\n%s~$> ", cwd);
 }
 
 int main(int ac, char **av, char **envp)
@@ -85,8 +87,9 @@ int main(int ac, char **av, char **envp)
         R_DEV_ASSERT(*line_cmd, "", continue);
         char **argv = my_str_to_word_array(line_cmd, " \t");
         treatement(argv, envp, &run);
-        gc->stackSize = 0;
+        free_2d_array(argv);
         gc_run(gc);
+        gc->stackSize = 0;
     }
     gc_stop(gc);
     return (0);

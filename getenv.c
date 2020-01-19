@@ -7,6 +7,7 @@
 
 #include <stdlib.h>
 #include "garbage.h"
+#include "my.h"
 
 char *my_getenv(char *name, char **envp)
 {

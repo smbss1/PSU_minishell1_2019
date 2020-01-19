@@ -41,6 +41,7 @@ typedef struct {
     object_t *firstObject;
     int numObjects;
     int maxObjects;
+    int object_collected;
 } gc_t;
 
 ////////////////////////////////////////////////////////
@@ -48,7 +49,7 @@ typedef struct {
 void gc_run(gc_t *vm);
 void gc_stop(gc_t *vm);
 gc_t *my_gc_new(void);
-object_t *newObject(gc_t *vm, object_type type);
+object_t *new_object(gc_t *vm, object_type type);
 void *gc_malloc(gc_t *vm, size_t size);
 void gc_free(gc_t *vm, void *ptr);
 gc_t *get_garbage(void);

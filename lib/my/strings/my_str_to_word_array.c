@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include "my.h"
 #include "debug.h"
+#include "garbage.h"
 
 static int get_col_length(char const *str)
 {
@@ -20,6 +21,7 @@ static int get_col_length(char const *str)
             col = len;
         ptr = my_strtok(NULL, " \t");
     }
+    gc_free(get_garbage(), dup);
     return (col);
 }
 
@@ -32,6 +34,7 @@ static int get_row_length(char const *str)
         ptr = my_strtok(NULL, " \t");
         row++;
     }
+    gc_free(get_garbage(), dup);
     return (row);
 }
 
@@ -44,9 +47,9 @@ char **my_str_to_word_array(char const *str, char *delim)
     R_DEV_ASSERT(array, "", return (NULL));
     my_memset_array(array, 0, row + 1, col);
     char *word = my_strtok(str, delim);
-    int i = 0;
-    for (i = 0; word; i++) {
+    for (int i = 0; word; i++) {
         my_strcpy(array[i], word);
+        gc_free(get_garbage(), word);
         word = my_strtok(NULL, delim);
     }
     array[row] = NULL;

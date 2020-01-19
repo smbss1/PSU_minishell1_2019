@@ -59,6 +59,8 @@ char *str_cat_dup(gc_t *gc, char *str1, char *str2)
         return (NULL);
     copy(result, str1, str2, &j);
     result[j] = '\0';
+    gc_free(gc, str1);
+    gc_free(gc, str2);
     return (result);
 }
 
