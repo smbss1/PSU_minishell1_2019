@@ -10,6 +10,10 @@
 #include "my.h"
 #include "garbage.h"
 
+void find_cmd_path(DIR *directory, char *path, char *cmd, char **path_found);
+
+void execute(char **argv, char **env);
+
 void my_execvp(char *cmd, char **argv, char **env, char *env_path)
 {
     DIR *directory = NULL;

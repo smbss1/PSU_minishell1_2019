@@ -11,12 +11,13 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <string.h>
 #include "garbage.h"
+#include "my.h"
 
 void execute(char **argv, char **env)
 {
     int parent_pid = getpid();
-    pid_t child_pid;
     int status;
 
     parent_pid = fork();

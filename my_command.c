@@ -6,7 +6,10 @@
 */
 
 #include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
 #include "my.h"
+#include "debug.h"
 
 char *my_getenv(char *name, char **envp);
 
@@ -20,14 +23,26 @@ void cd(char *path, char **env)
 {
     if (my_strcmp(path, "-") == 0) {
         path = my_getenv("PWD", env);
+        R_DEV_ASSERT(path, "", return);
         my_strtok(my_strdup(path), "=");
         path = my_strtok(NULL, ":");
     }
     if (my_strcmp(path, "~") == 0) {
         path = my_getenv("HOME", env);
+        R_DEV_ASSERT(path, "", return);
         my_strtok(my_strdup(path), "=");
         path = my_strtok(NULL, ":");
     }
     if (path && chdir(path) < 0)
         perror(path);
+}
+
+void env_cmd(char **env)
+{
+    R_DEV_ASSERT(env, "", return);
+    R_DEV_ASSERT(env[0], "", return);
+    for (int i = 0; env[i]; i++) {
+        my_putstr(env[i]);
+        my_putstr("\n");
+    }
 }

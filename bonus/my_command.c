@@ -20,6 +20,8 @@ void cd(char *path, char **env)
 {
     if (my_strcmp(path, "-") == 0) {
         path = my_getenv("PWD", env);
+        if (path == NULL)
+            return;
         my_strtok(my_strdup(path), "=");
         path = my_strtok(NULL, ":");
     }

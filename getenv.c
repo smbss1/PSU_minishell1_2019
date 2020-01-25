@@ -11,6 +11,8 @@
 
 char *my_getenv(char *name, char **envp)
 {
+    if (name == NULL || envp == NULL || envp[0] == NULL)
+        return (NULL);
     for (int i = 0; envp[i]; i++) {
         char *test = my_strdup(envp[i]);
         char *env_word = my_strtok(test, "=");

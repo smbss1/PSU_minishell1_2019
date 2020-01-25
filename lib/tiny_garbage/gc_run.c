@@ -16,8 +16,6 @@ void gc_run(gc_t *vm)
     sweep(vm);
     vm->maxObjects = vm->numObjects * 2;
     int collected = numObjects - vm->numObjects;
-    my_printf("Collected %d objects, %d remaining.\n", collected,
-                                                    vm->numObjects);
 }
 
 void gc_print(gc_t *vm)

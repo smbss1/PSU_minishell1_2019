@@ -7,7 +7,8 @@
 
 SRC = 	main.c my_scanf.c my_event.c \
 		my_command.c my_execvp.c debug.c \
-		getenv.c find_cmd_path.c execute.c
+		getenv.c find_cmd_path.c execute.c \
+		set_env.c unset_env.c
 OBJ = $(SRC:.c=.o)
 NAME = mysh
 
@@ -16,7 +17,7 @@ CFLAGS += -L ./lib/
 CFLAGS += -lmy
 CFLAGS += -lgc
 CFLAGS += -W -Wall
-CFLAGS += -g
+CFLAGS += -g3
 
 bold = [1m
 green = [32m
@@ -48,3 +49,9 @@ fclean: clean
 	@make fclean -s -C lib/tiny_garbage
 
 re: fclean all
+
+install:
+	@echo "Install"
+
+run:
+	./$(NAME)

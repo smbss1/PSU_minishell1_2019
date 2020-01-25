@@ -14,13 +14,21 @@
 
 #include <stdlib.h>
 #include "garbage.h"
+#include "my.h"
 
 char **mem_alloc_2d_array(int nb_rows, int nb_cols)
 {
     gc_t *gc = get_garbage();
     char **array = gc_malloc(gc, nb_rows * sizeof(char *));
-    for (int i = 0; i < nb_rows; i++)
+    if (array == NULL)
+        return (NULL);
+    for (int i = 0; i < nb_rows; i++) {
         array[i] = gc_malloc(gc, nb_cols * sizeof(char));
+        if (array[i] == NULL) {
+            free_2d_array(array);
+            return (NULL);
+        }
+    }
     return (array);
 }
 

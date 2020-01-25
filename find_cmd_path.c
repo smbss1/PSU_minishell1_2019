@@ -7,6 +7,7 @@
 
 #include <dirent.h>
 #include <stdlib.h>
+#include "my.h"
 
 void find_cmd_path(DIR *directory, char *path, char *cmd, char **path_found)
 {
