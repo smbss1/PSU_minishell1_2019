@@ -10,17 +10,17 @@
 
 void gc_run(gc_t *vm)
 {
-    int numObjects = vm->numObjects;
+    int numObjects = vm->num_objects;
 
     mark_all(vm);
     sweep(vm);
-    vm->maxObjects = vm->numObjects * 2;
-    int collected = numObjects - vm->numObjects;
+    vm->max_objects = vm->num_objects * 2;
+    int collected = numObjects - vm->num_objects;
 }
 
 void gc_print(gc_t *vm)
 {
-    for (int i = 0; i < vm->stackSize; i++) {
+    for (int i = 0; i < vm->stack_size; i++) {
         if (vm->stack[i])
             my_printf("%s\n", vm->stack[i]->data);
     }

@@ -5,10 +5,10 @@
 # make an executable
 #
 
-SRC = 	main.c my_scanf.c my_event.c \
+SRC = 	main.c my_event.c \
 		my_command.c my_execvp.c debug.c \
-		getenv.c find_cmd_path.c execute.c \
-		set_env.c unset_env.c
+		getenv.c execute.c update.c \
+		set_env.c unset_env.c my_strcat_dup.c
 OBJ = $(SRC:.c=.o)
 NAME = mysh
 

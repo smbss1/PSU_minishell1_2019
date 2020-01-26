@@ -18,29 +18,29 @@ typedef enum t {
     OBJ_PAIR
 } object_type;
 
-typedef struct sObject {
+typedef struct s_object {
     object_type type;
     unsigned char marked;
     size_t hash;
     int id;
-    struct sObject *next;
+    struct s_object *next;
 
     union {
         int value;
         void *data;
         struct {
-            struct sObject *head;
-            struct sObject *tail;
+            struct s_object *head;
+            struct s_object *tail;
         };
     };
 } object_t;
 
 typedef struct {
     object_t *stack[STACK_MAX];
-    int stackSize;
-    object_t *firstObject;
-    int numObjects;
-    int maxObjects;
+    int stack_size;
+    object_t *first_object;
+    int num_objects;
+    int max_objects;
     int object_collected;
 } gc_t;
 

@@ -21,7 +21,7 @@ void mark(object_t *object)
 
 void mark_all(gc_t *vm)
 {
-    for (int i = 0; i < vm->stackSize; i++)
+    for (int i = 0; i < vm->stack_size; i++)
         if (vm->stack[i] != NULL)
             mark(vm->stack[i]);
 }

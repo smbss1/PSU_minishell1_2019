@@ -120,8 +120,8 @@ int my_mul(int a, int b);
 int my_div(int a, int b);
 int my_mod(int a, int b);
 
-int readFile(char *file);
-void writeFile(char *file, char *data);
+int read_file(char *file);
+void write_file(char *file, char *data);
 int fs_open_file(char const *filepath);
 char *load_file_in_mem(char const *filepath);
 char **load_2d_arr_from_file(char const *filepath, int nb_rows, int nb_cols);
@@ -204,5 +204,7 @@ void dictionary_sort(dictionary **dict, int (*compare)(void *, void *));
 void dictionary_sort_by_key(dictionary **dict);
 
 /****************************************************************************/
+
+char *my_strcat_dup(char *str1, char *str2);
 
 #endif

@@ -27,7 +27,7 @@ size_t my_strcspn(const char *s1, const char *s2)
     const char *s = s1;
     const char *c;
 
-    for (; *s1; s1++) {
+    for (; *s1; s1 = s1 + 1) {
         for (c = s2; *c; c++) {
             if (*s1 == *c)
                 break;

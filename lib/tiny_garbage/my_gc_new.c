@@ -35,23 +35,23 @@ gc_t *my_gc_new(void)
     if (gc_static != NULL)
         return (gc_static);
     gc_t *vm = malloc(sizeof(gc_t));
-    vm->stackSize = 0;
-    vm->firstObject = NULL;
-    vm->numObjects = 0;
-    vm->maxObjects = 8;
+    vm->stack_size = 0;
+    vm->first_object = NULL;
+    vm->num_objects = 0;
+    vm->max_objects = 8;
     gc_static = vm;
     return (vm);
 }
 
 object_t *new_object(gc_t *vm, object_type type)
 {
-    if (vm->numObjects >= vm->maxObjects)
+    if (vm->num_objects >= vm->max_objects)
         gc_run(vm);
     object_t *object = malloc(sizeof(object_t));
     object->type = type;
-    object->next = vm->firstObject;
-    vm->firstObject = object;
+    object->next = vm->first_object;
+    vm->first_object = object;
     object->marked = 0;
-    vm->numObjects++;
+    vm->num_objects++;
     return (object);
 }

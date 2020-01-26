@@ -54,6 +54,8 @@
         "cinttypes": "c",
         "cstdbool": "c",
         "typeinfo": "c",
-        "my.h": "c"
+        "my.h": "c",
+        "garbage.h": "c",
+        "minishell.h": "c"
     }
 }

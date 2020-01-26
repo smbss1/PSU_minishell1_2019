@@ -9,7 +9,7 @@
 
 void gc_stop(gc_t *vm)
 {
-    vm->stackSize = 0;
+    vm->stack_size = 0;
     gc_run(vm);
     free(vm);
 }

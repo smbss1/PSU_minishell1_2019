@@ -14,11 +14,9 @@ char *my_getenv(char *name, char **envp)
     if (name == NULL || envp == NULL || envp[0] == NULL)
         return (NULL);
     for (int i = 0; envp[i]; i++) {
-        char *test = my_strdup(envp[i]);
-        char *env_word = my_strtok(test, "=");
-        if (my_strcmp(env_word, name) == 0)
+        char *new_name = my_strcat_dup(name, "=");
+        if (my_strncmp(envp[i], new_name, my_strlen(new_name)) == 0)
             return (envp[i]);
-        gc_free(get_garbage(), test);
     }
     return (NULL);
 }

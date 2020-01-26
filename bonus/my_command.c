@@ -22,12 +22,12 @@ void cd(char *path, char **env)
         path = my_getenv("PWD", env);
         if (path == NULL)
             return;
-        my_strtok(my_strdup(path), "=");
+        my_strtok(my_strdup(path), " = ");
         path = my_strtok(NULL, ":");
     }
     if (my_strcmp(path, "~") == 0) {
         path = my_getenv("HOME", env);
-        my_strtok(my_strdup(path), "=");
+        my_strtok(my_strdup(path), " = ");
         path = my_strtok(NULL, ":");
     }
     if (path && chdir(path) < 0)

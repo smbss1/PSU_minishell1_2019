@@ -14,7 +14,7 @@ void my_execvp(char *cmd, char **argv, char **env, char *env_path)
     DIR *directory = NULL;
     char *path_found = NULL;
     char *env_dup = my_strdup(env_path);
-    char *path = my_strtok(env_dup, "=");
+    char *path = my_strtok(env_dup, " = ");
 
     for (; path; path = my_strtok(NULL, ":")) {
         directory = opendir(path);

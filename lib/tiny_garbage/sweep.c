@@ -9,7 +9,7 @@
 
 void sweep(gc_t *vm)
 {
-    object_t **object = &vm->firstObject;
+    object_t **object = &vm->first_object;
     while (*object) {
         if ((*object)->marked == 0) {
             object_t *unreached = *object;
@@ -17,7 +17,7 @@ void sweep(gc_t *vm)
             if (unreached && unreached->data && unreached->type == OBJ_VOID_PTR)
                 free(unreached->data);
             free(unreached);
-            vm->numObjects--;
+            vm->num_objects--;
         } else {
             (*object)->marked = 0;
             object = &(*object)->next;

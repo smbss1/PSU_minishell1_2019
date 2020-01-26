@@ -24,13 +24,13 @@ void cd(char *path, char **env)
     if (my_strcmp(path, "-") == 0) {
         path = my_getenv("PWD", env);
         R_DEV_ASSERT(path, "", return);
-        my_strtok(my_strdup(path), "=");
+        my_strtok(my_strdup(path), " = ");
         path = my_strtok(NULL, ":");
     }
     if (my_strcmp(path, "~") == 0) {
         path = my_getenv("HOME", env);
         R_DEV_ASSERT(path, "", return);
-        my_strtok(my_strdup(path), "=");
+        my_strtok(my_strdup(path), " = ");
         path = my_strtok(NULL, ":");
     }
     if (path && chdir(path) < 0)
