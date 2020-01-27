@@ -75,11 +75,14 @@ void update(char **envp)
     char buff[100];
     gc_t *gc = my_gc_new();
 
-    while (run) {
+    while (run == 1) {
         char *cwd = getcwd(buff, 100);
         my_printf("%s~$> ", cwd);
         char *line_cmd = get_next_line(0);
-        R_DEV_ASSERT(line_cmd, "\n", continue);
+        if (!line_cmd) {
+            my_exit(&run);
+            continue;
+        }
         R_DEV_ASSERT(*line_cmd, "", continue);
         char **argv = my_str_to_word_array(line_cmd, " \t");
         treatement(argv, &envp, &run);

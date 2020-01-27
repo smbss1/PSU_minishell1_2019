@@ -10,13 +10,17 @@
 
 void gc_run(gc_t *vm)
 {
+    #ifdef NDEBUG
     int numObjects = vm->num_objects;
+    #endif
 
     mark_all(vm);
     sweep(vm);
     vm->max_objects = vm->num_objects * 2;
+    #ifdef NDEBUG
     int collected = numObjects - vm->num_objects;
     my_printf("%d collected, %d remaining\n", collected, vm->num_objects);
+    #endif
 }
 
 void gc_print(gc_t *vm)
