@@ -98,7 +98,10 @@ SRC =	my_char_isalpha.c \
 		$(SRC_STRING) \
 		$(SRC_VEC) \
 		$(SRC_DICT) \
-		$(SRC_SPUTS)
+		$(SRC_SPUTS) \
+		my_memcpy.c \
+		my_memmove.c \
+		my_memset.c
 
 OBJ = $(SRC:.c=.o)
 NAME = libmy

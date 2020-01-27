@@ -8,6 +8,8 @@
 #ifndef _MY_
 #define _MY_
 
+#include <stdlib.h>
+
 /********************************STRUCT***********************************/
 
 typedef struct {
@@ -143,6 +145,10 @@ char **mem_alloc_2d_array(int nb_rows, int nb_cols);
 * \return A new allocated 2d array
 */
 int **mem_alloc_2d_array_int(int nb_rows, int nb_cols);
+char **my_memset_array(char **ptr, int x, int r, int c);
+void *my_memset(void *ptr, int x, int n);
+void *my_memmove(void *dest, const void *src, size_t len);
+void *my_memcpy(void *dest, const void *src, size_t len);
 
 /****************************************************************************/
 

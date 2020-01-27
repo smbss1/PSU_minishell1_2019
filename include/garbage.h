@@ -53,5 +53,10 @@ object_t *new_object(gc_t *vm, object_type type);
 void *gc_malloc(gc_t *vm, size_t size);
 void gc_free(gc_t *vm, void *ptr);
 gc_t *get_garbage(void);
+void gc_print(gc_t *vm);
+int assert(int condition, const char *message);
+void sweep(gc_t *vm);
+void mark_all(gc_t *vm);
+void gc_push(gc_t *vm, object_t *value);
 
 #endif

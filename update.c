@@ -11,7 +11,7 @@
 #include "garbage.h"
 #include "minishell.h"
 
-int custom_cmd2(char const **argv, int *run, char ***env)
+int custom_cmd2(char **argv, char ***env)
 {
     R_DEV_ASSERT(argv[0], "", return (1));
     if (my_strcmp(argv[0], "env") == 0) {
@@ -21,21 +21,21 @@ int custom_cmd2(char const **argv, int *run, char ***env)
     if (my_strcmp(argv[0], "setenv") == 0) {
         R_DEV_ASSERT(argv[1], "", return (1));
         char buffer[my_strlen(argv[1]) + 1];
-        my_sprintf(&buffer, "%s=", argv[1]);
+        my_sprintf(buffer, "%s=", argv[1]);
         set_env_cmd(buffer, argv[2], env);
         return (1);
     }
     if (my_strcmp(argv[0], "unsetenv") == 0) {
         R_DEV_ASSERT(argv[1], "", return (1));
         char buffer[my_strlen(argv[1]) + 1];
-        my_sprintf(&buffer, "%s=", argv[1]);
+        my_sprintf(buffer, "%s=", argv[1]);
         unset_env_cmd(buffer, env);
         return (1);
     }
     return (0);
 }
 
-int custom_cmd(char const **argv, int *run, char ***env)
+int custom_cmd(char **argv, int *run, char ***env)
 {
     R_DEV_ASSERT(argv[0], "", return (1));
     if (my_strcmp(argv[0], "cd") == 0) {
@@ -50,7 +50,7 @@ int custom_cmd(char const **argv, int *run, char ***env)
         gc_print(get_garbage());
         return (1);
     }
-    if (custom_cmd2(argv, run, env) == 1)
+    if (custom_cmd2(argv, env) == 1)
         return (1);
     return (0);
 }
@@ -62,7 +62,7 @@ void treatement(char **argv, char ***envp, int *run)
         execute(argv, *envp);
         return;
     }
-    if (custom_cmd(argv, run, envp) == 1)
+    if (custom_cmd((char **)argv, run, envp) == 1)
         return;
     char *path_var = my_getenv("PATH", *envp);
     R_DEV_ASSERT(path_var, "", return);
@@ -76,14 +76,14 @@ void update(char **envp)
     gc_t *gc = my_gc_new();
 
     while (run) {
-        char *cwd = getcwd(&buff, 100);
+        char *cwd = getcwd(buff, 100);
         my_printf("%s~$> ", cwd);
         char *line_cmd = get_next_line(0);
         R_DEV_ASSERT(line_cmd, "\n", continue);
         R_DEV_ASSERT(*line_cmd, "", continue);
         char **argv = my_str_to_word_array(line_cmd, " \t");
         treatement(argv, &envp, &run);
-        free_2d_array(argv);
+        free_2d_array((void **)argv);
         gc_run(gc);
     }
 }

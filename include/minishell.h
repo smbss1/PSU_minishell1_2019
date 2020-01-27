@@ -16,5 +16,9 @@ char *my_getenv(char *name, char **envp);
 void my_execvp(char *cmd, char **argv, char **env, char *env_path);
 char *str_cat_dup(gc_t *gc, char *str1, char *str2);
 void set_env_cmd(char *name, char *path, char ***env);
+void execute(char **argv, char **env);
+void unset_env_cmd(char *name, char ***env);
+void env_cmd(char **env);
+void update(char **envp);
 
 #endif

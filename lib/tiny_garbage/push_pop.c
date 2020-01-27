@@ -23,7 +23,7 @@ void gc_push(gc_t *vm, object_t *value)
 object_t *pop(gc_t *vm)
 {
     if (assert(vm->stack_size > 0, "Stack underflow!"))
-        return;
+        return (NULL);
     vm->stack[vm->stack_size] = NULL;
     return (vm->stack[--vm->stack_size]);
 }

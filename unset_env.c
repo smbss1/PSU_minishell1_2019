@@ -10,7 +10,7 @@
 #include "my.h"
 #include "garbage.h"
 
-static int get_row_length(char const **env)
+static int get_row_length(char **env)
 {
     int row = 0;
     for (int i = 0; env[i]; i++) {
@@ -19,7 +19,7 @@ static int get_row_length(char const **env)
     return (row);
 }
 
-static int get_col_length(char const **env)
+static int get_col_length(char **env)
 {
     int col = 0;
     for (int i = 0; env[i]; i++) {
@@ -30,7 +30,7 @@ static int get_col_length(char const **env)
     return (col);
 }
 
-char **rearrange(char const **env, int i)
+char **rearrange(char **env, int i)
 {
     int row = get_row_length(env);
     int col = get_col_length(env);
@@ -45,7 +45,7 @@ char **rearrange(char const **env, int i)
         } else
             my_strcpy(new_env[i], env[++j]);
     }
-    free_2d_array(env);
+    free_2d_array((void **)env);
     new_env[row - 1] = NULL;
     return (new_env);
 }

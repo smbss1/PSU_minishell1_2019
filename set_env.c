@@ -10,7 +10,7 @@
 #include "my.h"
 #include "garbage.h"
 
-static int get_col_length(char const **env)
+static int get_col_length(char **env)
 {
     int col = 0;
     for (int i = 0; env[i]; i++) {
@@ -52,7 +52,7 @@ static char	**add_var(char **env, char *to_change,
         return (new_env);
     idx++;
     new_env[idx] = NULL;
-    free_2d_array(env);
+    free_2d_array((void **)env);
     return (new_env);
 }
 

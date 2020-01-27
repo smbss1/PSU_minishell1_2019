@@ -10,9 +10,8 @@
 #include "my.h"
 #include "garbage.h"
 
-static inline gc_t *gc_static;
-
-int assert(int condition, const char *message) {
+int assert(int condition, const char *message)
+{
     if (!condition) {
         my_printf("%s\n", message);
         return (1);
@@ -20,18 +19,14 @@ int assert(int condition, const char *message) {
     return (0);
 }
 
-static size_t hash(void *ptr)
-{
-    return ((unsigned long)ptr) >> 3;
-}
-
 gc_t *get_garbage(void)
 {
-    return (gc_static);
+    return (my_gc_new());
 }
 
 gc_t *my_gc_new(void)
 {
+    static gc_t *gc_static;
     if (gc_static != NULL)
         return (gc_static);
     gc_t *vm = malloc(sizeof(gc_t));

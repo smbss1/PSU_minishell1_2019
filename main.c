@@ -17,13 +17,12 @@
 #include "garbage.h"
 #include "minishell.h"
 
-__sighandler_t sigint(int status)
+void sigint(int status)
 {
     signal(SIGINT, sigint);
     char buff[100];
-    char *cwd = getcwd(&buff, 100);
+    char *cwd = getcwd(buff, 100);
     my_printf("\n%s~$> ", cwd);
-    return (0);
 }
 
 int main(int ac, char **av, char **envp)
