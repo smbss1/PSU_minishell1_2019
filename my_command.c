@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include "my.h"
 #include "debug.h"
+#include "garbage.h"
 
 char *my_getenv(char *name, char **envp);
 
@@ -21,6 +22,8 @@ void my_exit(int *run)
 
 void cd(char *path, char **env)
 {
+    if (path == NULL)
+        path = my_strdup("~");
     if (my_strcmp(path, "-") == 0) {
         path = my_getenv("PWD", env);
         R_DEV_ASSERT(path, "", return);
@@ -33,8 +36,9 @@ void cd(char *path, char **env)
         my_strtok(my_strdup(path), " = ");
         path = my_strtok(NULL, ":");
     }
-    if (path && chdir(path) < 0)
+    if (chdir(path) < 0)
         perror(path);
+    gc_free(get_garbage(), path);
 }
 
 void env_cmd(char **env)

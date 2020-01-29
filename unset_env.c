@@ -13,9 +13,8 @@
 static int get_row_length(char **env)
 {
     int row = 0;
-    for (int i = 0; env[i]; i++) {
+    for (int i = 0; env[i]; i++)
         row++;
-    }
     return (row);
 }
 
@@ -34,9 +33,11 @@ char **rearrange(char **env, int i)
 {
     int row = get_row_length(env);
     int col = get_col_length(env);
+    char **new_env = NULL;
+
     gc_free(get_garbage(), env[i]);
     env[i] = NULL;
-    char **new_env = mem_alloc_2d_array(row, col);
+    new_env = mem_alloc_2d_array(row, col);
     my_memset_array(new_env, 0, row, col);
 
     for (int i = 0, j = 0; i < row - 1; i++, j++) {
@@ -56,6 +57,7 @@ void unset_env_cmd(char *name, char ***env)
     R_DEV_ASSERT(name, "", return);
     int i = 0;
     char **new_env = *env;
+
     while (new_env != NULL && new_env[i]) {
         if (my_strncmp(new_env[i], name, my_strlen(name)) == 0) {
             *env = rearrange(new_env, i);

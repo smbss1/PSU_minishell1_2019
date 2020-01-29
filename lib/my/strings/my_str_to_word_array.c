@@ -42,7 +42,7 @@ char **my_str_to_word_array(char const *str, char *delim)
 {
     R_DEV_ASSERT(str && str[0] != '\0', "", return (NULL));
     int row = get_row_length(str);
-    int col = get_col_length(str);
+    int col = get_col_length(str) + 1;
     char **array = mem_alloc_2d_array(row + 1, col);
     R_DEV_ASSERT(array, "", return (NULL));
     my_memset_array(array, 0, row + 1, col);

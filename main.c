@@ -20,9 +20,7 @@
 void sigint(int status)
 {
     signal(SIGINT, sigint);
-    char buff[100];
-    char *cwd = getcwd(buff, 100);
-    my_printf("\n%s~$> ", cwd);
+    my_printf("\nuser~$> ");
 }
 
 int main(int ac, char **av, char **envp)

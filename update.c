@@ -5,6 +5,7 @@
 ** up date
 */
 
+#include <sys/stat.h>
 #include "my.h"
 #include "get_next_line.h"
 #include "debug.h"
@@ -57,14 +58,21 @@ int custom_cmd(char **argv, int *run, char ***env)
 
 void treatement(char **argv, char ***envp, int *run)
 {
+    struct stat stats;
+    char *path_var = NULL;
+
     R_DEV_ASSERT(argv && *envp, "", return);
-    if (argv[0][0] == '.' && (argv[0][1] == '/' || argv[0][0] == '/')) {
-        execute(argv, *envp);
+    if (argv[0][0] == '.' || (argv[0][1] == '/' || argv[0][0] == '/')) {
+        if (stat(argv[0], &stats) == 0 && stats.st_mode & S_IXUSR
+                                        && S_ISREG(stats.st_mode))
+            execute(argv, *envp);
+        else
+            my_printf("%s: %s%sPermission denied\n", argv[0], BOLD, RED);
         return;
     }
     if (custom_cmd((char **)argv, run, envp) == 1)
         return;
-    char *path_var = my_getenv("PATH", *envp);
+    path_var = my_getenv("PATH", *envp);
     R_DEV_ASSERT(path_var, "", return);
     my_execvp(argv[0], argv, *envp, path_var);
 }
@@ -72,19 +80,19 @@ void treatement(char **argv, char ***envp, int *run)
 void update(char **envp)
 {
     int run = 1;
-    char buff[100];
+    char *line_cmd = NULL;
+    char **argv = NULL;
     gc_t *gc = my_gc_new();
 
     while (run == 1) {
-        char *cwd = getcwd(buff, 100);
-        my_printf("%s~$> ", cwd);
-        char *line_cmd = get_next_line(0);
+        my_printf("%s%s~$%s> ", BOLD, RED, RESET);
+        line_cmd = get_next_line(0);
         if (!line_cmd) {
             my_exit(&run);
             continue;
         }
         R_DEV_ASSERT(*line_cmd, "", continue);
-        char **argv = my_str_to_word_array(line_cmd, " \t");
+        argv = my_str_to_word_array(line_cmd, " \t");
         treatement(argv, &envp, &run);
         free_2d_array((void **)argv);
         gc_run(gc);

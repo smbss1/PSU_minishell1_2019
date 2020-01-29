@@ -9,6 +9,7 @@
 #include "debug.h"
 #include "my.h"
 #include "garbage.h"
+#include "minishell.h"
 
 static int get_col_length(char **env)
 {
@@ -24,6 +25,7 @@ static int get_col_length(char **env)
 static char *new_line(char const *name, char const *path)
 {
     char *new_line = NULL;
+
     new_line = gc_malloc(get_garbage(), sizeof(char) * (my_strlen(name)
                                                 + my_strlen(path) + 1));
     if (new_line == NULL)
@@ -39,8 +41,8 @@ static char	**add_var(char **env, char *to_change,
     int col = get_col_length(env);
     int	idx = 0;
     char **new_env = mem_alloc_2d_array(env_size + 2, col);
-    my_memset_array(new_env, 0, env_size + 2, col);
 
+    my_memset_array(new_env, 0, env_size + 2, col);
     if (new_env == NULL)
         return (env);
     while (env != NULL && env[idx]) {
@@ -64,14 +66,14 @@ void set_env_cmd(char *name, char *path, char ***env)
     char *line;
     int i = 0;
     char **new_env = *env;
-    while (new_env != NULL && new_env[i]) {
+
+    while (*new_env != NULL && new_env[i]) {
         if (my_strncmp(new_env[i], name, my_strlen(name)) == 0) {
-            line = new_line(name, path);
-            if (line) {
-                gc_free(get_garbage(), new_env[i]);
-                new_env[i] = my_strdup(line);
-                gc_free(get_garbage(), line);
-            }
+            line = new_line(new_env[i], my_strcat_dup(":", path));
+            R_DEV_ASSERT(line, "", return);
+            gc_free(get_garbage(), new_env[i]);
+            new_env[i] = my_strdup(line);
+            gc_free(get_garbage(), line);
             return;
         }
         i++;

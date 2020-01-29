@@ -11,6 +11,10 @@ SRC = 	main.c my_event.c \
 		set_env.c unset_env.c my_strcat_dup.c
 OBJ = $(SRC:.c=.o)
 NAME = mysh
+_SRC = execute.c my_execvp.c my_strcat_dup.c getenv.c set_env.c debug.c \
+		unset_env.c
+TEST_SRC = tests/test_execute.c
+TEST_NAME = tests_calc
 
 CFLAGS += -I ./include/
 CFLAGS += -L ./lib/
@@ -41,9 +45,12 @@ $(NAME): lib_make $(OBJ)
 
 clean:
 	@rm -f $(OBJ)
+	@rm -f *.gcno
+	@rm -f *.gcda
 
 fclean: clean
 	@rm -f $(NAME)
+	@rm -f $(TEST_NAME)
 	@rm -f vgcore*
 	@make fclean -s -C lib/my
 	@make fclean -s -C lib/tiny_garbage
@@ -55,3 +62,10 @@ install:
 
 run:
 	./$(NAME)
+
+run_tests: lib_make
+		@echo -e "\033[1;95mRunning tests...\033[0;39m"
+		@gcc -o $(TEST_NAME) $(_SRC) $(TEST_SRC) $(CFLAGS) --coverage -lcriterion
+		./$(TEST_NAME)
+		gcovr
+		@echo -e "\033[1;94mTest finished, here are the results\033[0;39m"
