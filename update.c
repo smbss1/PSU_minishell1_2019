@@ -79,7 +79,7 @@ void treatement(char **argv, char ***envp, int *run)
         if (stat(argv[0], &stats) == 0 && isexecutable(stats))
             execute(argv, *envp);
         else
-            my_printf("%s: Permission denied\n", argv[0]);
+            my_printf("%s: Permission denied.\n", argv[0]);
         return;
     }
     if (custom_cmd((char **)argv, run, envp) == 1)
