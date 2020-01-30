@@ -108,6 +108,7 @@ void update(char **envp)
             continue;
         }
         R_DEV_ASSERT(*line_cmd, "", continue);
+        my_str_clean(line_cmd);
         argv = my_str_to_word_array(line_cmd, " \t");
         treatement(argv, &envp, &run);
         free_2d_array((void **)argv);

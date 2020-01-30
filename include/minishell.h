@@ -24,5 +24,6 @@ void env_cmd(char **env);
 void update(char **envp);
 void treatement(char **argv, char ***envp, int *run);
 int isexecutable (struct stat stats);
+void my_str_clean(char *str);
 
 #endif

@@ -9,7 +9,7 @@ SRC = 	main.c my_event.c \
 		my_command.c my_execvp.c debug.c \
 		getenv.c execute.c update.c \
 		set_env.c unset_env.c my_strcat_dup.c \
-		my_cd.c
+		my_cd.c my_str_clean.c
 OBJ = $(SRC:.c=.o)
 NAME = mysh
 _SRC = execute.c my_execvp.c my_strcat_dup.c getenv.c set_env.c debug.c \
