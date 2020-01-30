@@ -27,7 +27,6 @@ void sigint(int status)
 int main(int ac, char **av, char **envp)
 {
     R_DEV_ASSERT(ac == 1, "", return (84));
-
     on("exit", my_exit, NULL);
     on("cd", NULL, cd);
     signal(SIGINT, sigint);

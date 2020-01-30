@@ -23,12 +23,26 @@ void error_handle(char *path)
 
 char *save_oldpwd(char *oldpwd)
 {
-    static char *old;
-    if (oldpwd != NULL)
+    static char *old = NULL;
+    if (oldpwd != NULL) {
         old = oldpwd;
-    else
+    } else
         return (old);
     return (NULL);
+}
+
+int arguments(char **path, char ***env)
+{
+    if (my_strcmp(*path, "-") == 0) {
+        *path = my_getenv("OLDPWD", *env);
+        R_DEV_ASSERT(*path, ": No such file or directory.\n", return (84));
+        *path = my_strtok(my_strdup(*path), ": = ");
+    }
+    if (my_strcmp(*path, "~") == 0) {
+        *path = my_getenv("HOME", *env);
+        R_DEV_ASSERT(*path, ": No such file or directory.\n", return (84));
+        *path = my_strtok(my_strdup(*path), ": = ");
+    }
 }
 
 void cd(char *path, char ***env)
@@ -36,19 +50,14 @@ void cd(char *path, char ***env)
     if (path == NULL)
         path = my_strdup("~");
     save_oldpwd(my_getenv("PWD", *env));
-    if (my_strcmp(path, "-") == 0) {
-        path = my_getenv("PWD", *env);
-        R_DEV_ASSERT(path, ": No such file or directory.\n", return);
-        path = my_strtok(my_strdup(path), ": = ");
-    }
-    if (my_strcmp(path, "~") == 0) {
-        path = my_getenv("HOME", *env);
-        R_DEV_ASSERT(path, ": No such file or directory.\n", return);
-        path = my_strtok(my_strdup(path), ": = ");
-    }
+    if (arguments(&path, env) == 84)
+        return;
     if (chdir(path) != -1) {
-        set_env_cmd("OLDPWD", save_oldpwd(NULL), env);
-        set_env_cmd("PWD", path, env);
+        unset_env_cmd("OLDPWD", env);
+        if (save_oldpwd(NULL))
+            set_env_cmd("OLDPWD=", save_oldpwd(NULL), env);
+        unset_env_cmd("PWD", env);
+        set_env_cmd("PWD=", path, env);
         gc_free(get_garbage(), path);
         return;
     }

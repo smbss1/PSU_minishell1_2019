@@ -13,8 +13,6 @@
 #include "garbage.h"
 #include "minishell.h"
 
-char *my_getenv(char *name, char **envp);
-
 int my_exit(int *run)
 {
     *run = 0;

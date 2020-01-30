@@ -30,6 +30,7 @@ static char *new_line(char const *name, char const *path)
                                                 + my_strlen(path) + 1));
     if (new_line == NULL)
         return (NULL);
+    my_memset(new_line, 0, my_strlen(name) + my_strlen(path) + 1);
     new_line = my_strncpy(new_line, name, my_strlen(name));
     new_line = my_strncat(new_line, path, my_strlen(path));
     return (new_line);

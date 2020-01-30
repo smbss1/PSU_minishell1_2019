@@ -27,5 +27,5 @@ Test(getenv , get_path_env , .init = redirect_all_stdout)
 {
     char *env[] = { "PATH=/bin", NULL };
     char *variable = my_getenv("PATH", env);
-    cr_assert_str_eq(variable, "=/bin");
+    cr_assert_str_eq(variable, "/bin");
 }
