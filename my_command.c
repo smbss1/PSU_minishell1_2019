@@ -15,11 +15,12 @@
 
 char *my_getenv(char *name, char **envp);
 
-void my_exit(int *run)
+int my_exit(int *run)
 {
     *run = 0;
     if (isatty(STDIN_FILENO))
         my_putstr("exit\n");
+    return (1);
 }
 
 void env_cmd(char **env)

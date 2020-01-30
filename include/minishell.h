@@ -9,10 +9,11 @@
 #define MINISHELL_H_
 
 #include "garbage.h"
+#include <sys/stat.h>
 
 void on(char *name, void *handler, void *handler2);
 int emit(char *name, void *value, void *value2);
-void my_exit(int *run);
+int my_exit(int *run);
 void cd(char *path, char ***env);
 char *my_getenv(char *name, char **envp);
 void my_execvp(char *cmd, char **argv, char **env, char *env_path);

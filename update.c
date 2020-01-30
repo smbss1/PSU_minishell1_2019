@@ -103,10 +103,8 @@ void update(char **envp)
         if (isatty(STDIN_FILENO))
             my_printf("~> ");
         line_cmd = get_next_line(0);
-        if (!line_cmd) {
-            my_exit(&run);
+        if (!line_cmd && my_exit(&run))
             continue;
-        }
         R_DEV_ASSERT(*line_cmd, "", continue);
         my_str_clean(line_cmd);
         argv = my_str_to_word_array(line_cmd, " \t");
