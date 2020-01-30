@@ -14,6 +14,8 @@ static int get_col_length(char const *str)
 {
     char *dup = my_strdup(str);
     char *ptr = my_strtok(dup, " ");
+    if (!ptr)
+        return (0);
     int col = my_strlen(ptr);
     for (int i = 0; ptr; i++) {
         int len = my_strlen(ptr);
@@ -43,10 +45,13 @@ char **my_str_to_word_array(char const *str, char *delim)
     R_DEV_ASSERT(str && str[0] != '\0', "", return (NULL));
     int row = get_row_length(str);
     int col = get_col_length(str) + 1;
+    if (col - 1 == 0)
+        return (NULL);
     char **array = mem_alloc_2d_array(row + 1, col);
     R_DEV_ASSERT(array, "", return (NULL));
     my_memset_array(array, 0, row + 1, col);
     char *word = my_strtok(str, delim);
+    R_DEV_ASSERT(word, "", return (NULL))
     for (int i = 0; word; i++) {
         my_strcpy(array[i], word);
         gc_free(get_garbage(), word);
