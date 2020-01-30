@@ -34,7 +34,7 @@ Test(execute , simple_cmd_full_directory , .init = redirect_all_stdout)
 
 Test(execute , simple_exec , .init = redirect_all_stdout)
 {
-    char *argv[] = { "./tests/simple_exec", NULL };
+    char *argv[] = { "./bonus/tests/simple_exec", NULL };
     char *env[] = { NULL };
     execute(argv, env);
     cr_assert_stdout_eq_str("Hello Wordl !\n");

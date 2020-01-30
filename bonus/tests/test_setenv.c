@@ -33,7 +33,7 @@ Test(setenv , add_path_env, .init = redirect_all_stdout, .fini = finish)
     my_strcpy(env[0], "PATH=/bin");
     env[1] = NULL;
     set_env_cmd("PATH", "/salut", &env);
-    cr_assert_str_eq(env[0], "PATH=/bin:/salut");
+    cr_assert_str_eq(env[0], "PATH=/bin/salut");
     free_2d_array((void **) env);
 }
 

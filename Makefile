@@ -67,7 +67,7 @@ install:
 run:
 	./$(NAME)
 
-run_tests: lib_make
+tests_run: lib_make
 		@echo -e "\033[1;95mRunning tests...\033[0;39m"
 		@gcc -o $(TEST_NAME) $(_SRC) $(TEST_SRC) $(CFLAGS) --coverage -lcriterion
 		./$(TEST_NAME)
