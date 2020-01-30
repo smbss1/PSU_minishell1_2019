@@ -60,17 +60,17 @@ static char	**add_var(char **env, char *to_change,
 
 void set_env_cmd(char *name, char *path, char ***env)
 {
-    R_DEV_ASSERT(*env && *env[0], "", return);
-    R_DEV_ASSERT(name, "", return);
-    R_DEV_ASSERT(path, "", return);
     char *line;
     int i = 0;
     char **new_env = *env;
 
+    if (!path) {
+        path = gc_malloc(get_garbage(), sizeof(char));
+        my_memset(path, 0, 1);
+    }
     while (*new_env != NULL && new_env[i]) {
         if (my_strncmp(new_env[i], name, my_strlen(name)) == 0) {
-            line = new_line(new_env[i], my_strcat_dup(":", path));
-            R_DEV_ASSERT(line, "", return);
+            line = new_line(new_env[i], path);
             gc_free(get_garbage(), new_env[i]);
             new_env[i] = my_strdup(line);
             gc_free(get_garbage(), line);

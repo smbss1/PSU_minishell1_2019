@@ -13,18 +13,24 @@
 
 void execute(char **argv, char **env);
 
+int isexecutable (struct stat stats)
+{
+    if (stats.st_mode & S_IXUSR && S_ISREG(stats.st_mode))
+        return (1);
+    return (0);
+}
+
 void my_execvp(char *cmd, char **argv, char **env, char *env_path)
 {
     struct stat stats = {0};
     char *env_dup = my_strdup(env_path), *path_found = NULL;
-    char *path = my_strtok(env_dup, " = "), *new_path = NULL;
+    char *path = my_strtok(env_dup, ":"), *new_path = NULL;
 
     for (; path; path = my_strtok(NULL, ":")) {
         new_path = my_strcat_dup(path, "/");
         gc_free(get_garbage(), new_path);
         new_path = my_strcat_dup(new_path, cmd);
-        if (new_path && stat(new_path, &stats) == 0 && stats.st_mode & S_IXUSR
-                                                    && S_ISREG(stats.st_mode))
+        if (new_path && stat(new_path, &stats) == 0 && isexecutable(stats))
             path_found = my_strdup(new_path);
         gc_free(get_garbage(), new_path);
         gc_free(get_garbage(), path);
@@ -35,5 +41,5 @@ void my_execvp(char *cmd, char **argv, char **env, char *env_path)
         argv[0] = path_found;
         execute(argv, env);
     } else
-        my_printf("%s: %s%sCommand not found.\n", cmd, BOLD, RED);
+        my_printf("%s: Command not found.\n", cmd);
 }

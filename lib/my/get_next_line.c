@@ -66,15 +66,14 @@ char *str_cat_dup(gc_t *gc, char *str1, char *str2)
 
 char *get_next_line(int fd)
 {
-    gc_t *gc = get_garbage();
     static char *buffer;
     char *ret = NULL;
     int i = 0;
 
-    malloc_buffer(gc, &buffer, fd);
+    malloc_buffer(get_garbage(), &buffer, fd);
     if (buffer == NULL || buffer[0] == '\0')
         return (NULL);
-    if (malloc_result(gc, &ret) == NULL)
+    if (malloc_result(get_garbage(), &ret) == NULL)
         return (NULL);
     while (buffer[0] != '\0' && (i == 0 || *(buffer - 1) != '\n')) {
         ret[i] = buffer[0];
@@ -85,6 +84,6 @@ char *get_next_line(int fd)
     if (i != 0 && ret[i - 1] == '\n') {
         ret[i - 1] = '\0';
     } else
-        ret = str_cat_dup(gc, ret, get_next_line(fd));
+        ret = str_cat_dup(get_garbage(), ret, get_next_line(fd));
     return (ret);
 }

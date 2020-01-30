@@ -20,7 +20,8 @@
 void sigint(int status)
 {
     signal(SIGINT, sigint);
-    my_printf("\nuser~$> ");
+    if (isatty(STDIN_FILENO))
+        my_printf("~> ");
 }
 
 int main(int ac, char **av, char **envp)

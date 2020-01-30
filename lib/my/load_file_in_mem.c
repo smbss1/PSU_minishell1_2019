@@ -17,7 +17,6 @@ int sstrlen(char const *filepath)
     int len;
 
     fd = fs_open_file(filepath);
-
     if (fd != -1) {
         while (read(fd, &c, 1) > 0)
             len++;

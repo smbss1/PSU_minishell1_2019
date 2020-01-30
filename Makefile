@@ -8,13 +8,17 @@
 SRC = 	main.c my_event.c \
 		my_command.c my_execvp.c debug.c \
 		getenv.c execute.c update.c \
-		set_env.c unset_env.c my_strcat_dup.c
+		set_env.c unset_env.c my_strcat_dup.c \
+		my_cd.c
 OBJ = $(SRC:.c=.o)
 NAME = mysh
 _SRC = execute.c my_execvp.c my_strcat_dup.c getenv.c set_env.c debug.c \
 		unset_env.c
-TEST_SRC = tests/test_execute.c
-TEST_NAME = tests_calc
+TEST_SRC =	bonus/tests/test_execute.c \
+			bonus/tests/test_setenv.c \
+			bonus/tests/test_getenv.c \
+			bonus/tests/test_unset_env.c
+TEST_NAME = unit_tests
 
 CFLAGS += -I ./include/
 CFLAGS += -L ./lib/

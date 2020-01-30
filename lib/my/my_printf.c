@@ -12,7 +12,7 @@
 
 int free_flags(void *f);
 
-flag_t *create_flag(void (*f)(void *), void (*f2)(void *, char *),
+static flag_t *create_flag(void (*f)(void *), void (*f2)(void *, char *),
                                         char *param, char *prefix)
 {
     flag_t *flag = malloc(sizeof(flag_t));
@@ -67,20 +67,14 @@ void my_printf(char *str, ...)
     init_dictionary(&flags);
 
     for (int i = 0; str[i]; i++) {
+        my_memset(flag, 0, 5);
         if (str[i] == '%') {
-            i++;
-            flag[0] = str[i];
-            if (str[i] == '#') {
-                i++;
-                flag[1] = str[i];
-                flag[2] = '\0';
-            } else
-                flag[1] = '\0';
+            my_charcat(flag, str[++i]);
+            if (str[i] == '#')
+                my_charcat(flag, str[++i]);
             get_flag(flag, print, &count, flags);
-        }
-        else
+        } else
             my_putchar(str[i]);
-        count++;
     }
     va_end(print);
     dictionary_foreach_value(flags, free_flags);

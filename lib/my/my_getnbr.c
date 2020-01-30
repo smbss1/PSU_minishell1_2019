@@ -5,7 +5,7 @@
 ** Function that returns a number, sent to the function as a string.
 */
 
-#include "../../include/my.h"
+#include "my.h"
 
 static int how_many_digit(char const *str)
 {
@@ -57,14 +57,11 @@ static int loop_get_nbr(char const *str, int *nb, int *neg)
             *nb += str[i] - '0';
             *nb *= 10;
             found_num = 1;
-
             if (condition(str, i, &verif, &verif2) == 0)
                 return (2);
-        } else {
-            if (condition_character(str, i, neg, found_num) == 0) {
+        } else
+            if (condition_character(str, i, neg, found_num) == 0)
                 return (3);
-            }
-        }
     }
     return (0);
 }

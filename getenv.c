@@ -17,7 +17,7 @@ char *my_getenv(char *name, char **envp)
         char *new_name = my_strcat_dup(name, "=");
         gc_free(get_garbage(), new_name);
         if (my_strncmp(envp[i], new_name, my_strlen(new_name)) == 0)
-            return (envp[i]);
+            return (envp[i] + my_strlen(name));
     }
     return (NULL);
 }

@@ -51,26 +51,18 @@ void my_sprintf(char *buffer, const char *str, ... )
     va_list print;
     va_start(print, str);
     char flag[5];
-    int count = 0;
     dictionary *flags = NULL;
     init_dictionary(&flags);
     char ch[800] = "";
 
-    for (int i = 0; str[i]; i++) {
+    for (int i = 0; str[i]; i++, my_memset(flag, 0, 5)) {
         if (str[i] == '%') {
-            i++;
-            flag[0] = str[i];
-            if (str[i] == '#') {
-                i++;
-                flag[1] = str[i];
-                flag[2] = '\0';
-            } else
-                flag[1] = '\0';
+            my_charcat(flag, str[++i]);
+            if (str[i] == '#')
+                my_charcat(flag, str[++i]);
             get_flags(flag, print, flags, &ch);
-        }
-        else
+        } else
             my_sputchar(str[i], &ch);
-        count++;
     }
     my_strcpy(buffer, ch);
     va_end(print);

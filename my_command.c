@@ -11,34 +11,15 @@
 #include "my.h"
 #include "debug.h"
 #include "garbage.h"
+#include "minishell.h"
 
 char *my_getenv(char *name, char **envp);
 
 void my_exit(int *run)
 {
     *run = 0;
-    my_putstr("exit\n");
-}
-
-void cd(char *path, char **env)
-{
-    if (path == NULL)
-        path = my_strdup("~");
-    if (my_strcmp(path, "-") == 0) {
-        path = my_getenv("PWD", env);
-        R_DEV_ASSERT(path, "", return);
-        my_strtok(my_strdup(path), " = ");
-        path = my_strtok(NULL, ":");
-    }
-    if (my_strcmp(path, "~") == 0) {
-        path = my_getenv("HOME", env);
-        R_DEV_ASSERT(path, "", return);
-        my_strtok(my_strdup(path), " = ");
-        path = my_strtok(NULL, ":");
-    }
-    if (chdir(path) < 0)
-        perror(path);
-    gc_free(get_garbage(), path);
+    if (isatty(STDIN_FILENO))
+        my_putstr("exit\n");
 }
 
 void env_cmd(char **env)

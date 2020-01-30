@@ -15,7 +15,6 @@ char *get_variable_name(char *str, char *word)
     char *dup = my_strdup(str);
 
     var = my_strtok(dup, delim);
-
     while (var != NULL) {
         if (my_strcmp(var, word) == 0) {
             return (var);
@@ -34,7 +33,6 @@ char *get_str(char *str, char *word)
     char *dup = my_strdup(str);
 
     var = my_strtok(dup, delim);
-
     while (var != NULL) {
         if (my_strcmp(var, word) == 0) {
             var = my_strtok(NULL, delim);
@@ -53,7 +51,6 @@ int get_number(char *str, char *word)
     char *dup = my_strdup(str);
 
     var = my_strtok(dup, delim);
-
     while (var != NULL) {
         if (my_strcmp(var, word) == 0) {
             var = my_strtok(NULL, delim);
